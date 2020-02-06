@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "366299607203",
+    "firebase_url": "https://hackathon-ispy.firebaseio.com",
+    "project_id": "hackathon-ispy",
+    "storage_bucket": "hackathon-ispy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366299607203:android:ff9f54f8c3086593f58f16",
+        "android_client_info": {
+          "package_name": "com.devrelconf.simonsays"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366299607203-7lp6l74hoor627o9gpkg756t2ljpdbft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkjG9d_7CUYubBN9RPUVXGT6d5lYQEwfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366299607203-7lp6l74hoor627o9gpkg756t2ljpdbft.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366299607203-je7rb8md1jubejvp82curk8liel3qk93.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.HackathonISpy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 labeler.processImage(firebaseVisionImage)
                     .addOnSuccessListener { labels ->
                         for( label in labels ) {
-                            Log.e("Test", "label: " + label)
+                            Log.e("Test", "label: " + label.text)
                         }
                     }
             }

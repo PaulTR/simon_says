@@ -1,17 +1,19 @@
 package com.devrelconf.simonsays
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel
 
-class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabel>, private val activity: AppCompatActivity) :
-    RecyclerView.Adapter<LabelsRVAdapter.MyViewHolder>() {
+class GamesListAdapter(private val myDataset: MutableList<DocumentSnapshot>, private val activity: AppCompatActivity) :
+    RecyclerView.Adapter<GamesListAdapter.MyViewHolder>() {
 
     val db = FirebaseFirestore.getInstance()
 
@@ -21,7 +23,7 @@ class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabe
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): LabelsRVAdapter.MyViewHolder {
+                                    viewType: Int): GamesListAdapter.MyViewHolder {
         // create a new view
         val textView = LayoutInflater.from(parent.context)
             .inflate(android.R.layout.simple_list_item_1, parent, false) as TextView
@@ -33,9 +35,10 @@ class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabe
                 "label" to textView.text
             )
 
-            db.collection("games").add(document)
+            db.collection("games").document(textView.text.toString())
+                .set(document)
                 .addOnSuccessListener {
-                    Toast.makeText(parent.context, "Success!", Toast.LENGTH_SHORT).show()
+                    startActivity(activity, Intent(activity, PlayGameActivity::class.java), null)
                     activity.finish()
                 }
 
@@ -47,7 +50,7 @@ class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabe
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.text = myDataset[position].text
+        holder.textView.text = myDataset[position].get("label").toString()
     }
 
     // Return the size of your dataset (invoked by the layout manager)

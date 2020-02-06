@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -31,11 +32,20 @@ class PlayGameActivity : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1
 
     lateinit var itemWeWant : String
+    var startTime: Long = 0
+    lateinit var id: String
+
+    private lateinit var functions: FirebaseFunctions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_game)
         itemWeWant = intent.getStringExtra("label") ?: ""
+        startTime = intent.getLongExtra("time", 0)
+        id = intent.getStringExtra("id") ?: ""
+
+        functions = FirebaseFunctions.getInstance()
+
         btn_take_picture.setOnClickListener( View.OnClickListener {
             startCamera()
         })
@@ -86,7 +96,23 @@ class PlayGameActivity : AppCompatActivity() {
                             Log.e("Test", "label: " + label.text)
                             if(itemWeWant?.toLowerCase().equals(label.text.toLowerCase())) {
                                 Toast.makeText(this@PlayGameActivity, "You found it!", Toast.LENGTH_SHORT).show()
+                                val data = hashMapOf(
+                                    "gameId" to id,
+                                    "playerName" to "Android",
+                                    "timeTaken" to System.currentTimeMillis()/1000 - startTime,
+                                    "confidence" to label.confidence
+                                )
+
+                                functions
+                                    .getHttpsCallable("submitFinding")
+                                    .call(data)
+                                    .continueWith { task ->
+                                        val result = task.result?.data as String
+                                        Log.e("Test", result)
+                                        result
+                                    }
                                 itemFound = true
+                                break
                             }
                         }
 

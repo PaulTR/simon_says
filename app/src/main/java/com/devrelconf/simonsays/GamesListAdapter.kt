@@ -29,6 +29,8 @@ class GamesListAdapter(private val myDataset: MutableList<DocumentSnapshot>, pri
             val intent = Intent(activity, PlayGameActivity::class.java)
             myDataset[position].id
             intent.putExtra("label", holder.textView.text.toString())
+            intent.putExtra("time", System.currentTimeMillis()/1000)
+            intent.putExtra("id", myDataset[position].id)
             activity.startActivity(intent)
             activity.finish()
         })

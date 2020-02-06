@@ -84,7 +84,7 @@ class CreateChallengeActivity : AppCompatActivity() {
                         val layoutManager = LinearLayoutManager(baseContext)
                         layoutManager.orientation = LinearLayoutManager.VERTICAL
                         labels_list.layoutManager = layoutManager
-                        labels_list.adapter = LabelsRVAdapter(labels)
+                        labels_list.adapter = LabelsRVAdapter(labels, this@CreateChallengeActivity)
                     }
             }
         }

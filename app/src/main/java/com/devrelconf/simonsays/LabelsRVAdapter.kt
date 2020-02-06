@@ -5,11 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel
 
-class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabel>) :
+class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabel>, private val activity: AppCompatActivity) :
     RecyclerView.Adapter<LabelsRVAdapter.MyViewHolder>() {
+
+    val db = FirebaseFirestore.getInstance()
+
 
     class MyViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
@@ -23,6 +28,18 @@ class LabelsRVAdapter(private val myDataset: MutableList<FirebaseVisionImageLabe
 
         textView.setOnClickListener(View.OnClickListener {
             Toast.makeText(parent.context, textView.text, Toast.LENGTH_SHORT).show()
+
+            val document = hashMapOf(
+                "label" to textView.text
+            )
+
+            db.collection("games").document(textView.text.toString())
+                .set(document)
+                .addOnSuccessListener {
+                    Toast.makeText(parent.context, "Success!", Toast.LENGTH_SHORT).show()
+                    activity.finish()
+                }
+
         })
         return MyViewHolder(textView)
     }

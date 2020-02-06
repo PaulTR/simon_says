@@ -37,6 +37,10 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     implementation 'com.google.firebase:firebase-ml-vision-image-label-model:19.0.0'
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin

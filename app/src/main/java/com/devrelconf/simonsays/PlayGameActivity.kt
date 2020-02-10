@@ -85,13 +85,13 @@ class PlayGameActivity : AppCompatActivity() {
                 found_image.setImageBitmap(Bitmap.createBitmap(photo, 0, 0, photo.width, photo.height, matrix, true))
                 val firebaseVisionImage = FirebaseVisionImage.fromBitmap(rotatedPhoto)
 
-                val labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler()
+                val labeler = FirebaseVision.getInstance().getCloudImageLabeler()
 
 
                 labeler.processImage(firebaseVisionImage)
                     .addOnSuccessListener { labels ->
                         Log.e("Test", "item we want: " + itemWeWant)
-                        var itemFound = false
+                        var imageFound = false
                         for( label in labels ) {
                             Log.e("Test", "label: " + label.text)
                             if(itemWeWant?.toLowerCase().equals(label.text.toLowerCase())) {
@@ -103,6 +103,8 @@ class PlayGameActivity : AppCompatActivity() {
                                     "confidence" to label.confidence
                                 )
 
+                                imageFound = true
+
                                 functions
                                     .getHttpsCallable("submitFinding")
                                     .call(data)
@@ -111,13 +113,17 @@ class PlayGameActivity : AppCompatActivity() {
                                         Log.e("Test", result)
                                         result
                                     }
-                                itemFound = true
-                                break
+
+//                                val intent = Intent(this@PlayGameActivity, LeaderboardDisplay::class.java)
+//                                intent.putExtra("playerName", "Android")
+//                                intent.putExtra("gameId", id)
+//                                this@PlayGameActivity.startActivity(intent)
+                                finish()
                             }
                         }
 
-                        if( !itemFound ) {
-                            Toast.makeText(this@PlayGameActivity, "Doesn't look like that's it. Try again!", Toast.LENGTH_SHORT).show()
+                        if( !imageFound ) {
+                            Toast.makeText(this@PlayGameActivity, "That's not it", Toast.LENGTH_SHORT).show()
                         }
                     }
             }

@@ -69,7 +69,7 @@ class CreateChallengeActivity : AppCompatActivity() {
                 image.setImageBitmap(Bitmap.createBitmap(photo, 0, 0, photo.width, photo.height, matrix, true))
                 val firebaseVisionImage = FirebaseVisionImage.fromBitmap(rotatedPhoto)
 
-                val labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler()
+                val labeler = FirebaseVision.getInstance().getCloudImageLabeler()
 
 
                 labeler.processImage(firebaseVisionImage)

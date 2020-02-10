@@ -27,6 +27,7 @@
         <activity android:name=".CreateChallengeActivity" />
         <activity android:name=".PlayGameActivity" />
         <activity android:name=".StartChallengeActivity" />
+        <activity android:name=".LeaderboardDisplay" />
     </application>
 
 </manifest>
